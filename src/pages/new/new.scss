@@ -32,12 +32,13 @@
 
       .right {
         flex: 2;
+        padding: 20px;
 
         form {
           display: flex;
           flex-wrap: wrap;
           gap: 30px;
-          justify-content: space-around;
+          justify-content: space-between;
 
           .formInput {
             width: 40%;
@@ -71,6 +72,9 @@
             margin-top: 10px;
           }
         }
+      }
+      .users{
+        margin-top: 1.4rem;
       }
     }
   }

@@ -1,9 +1,7 @@
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import { Hotel, RoomOutlined } from "@mui/icons-material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
-import StoreIcon from "@mui/icons-material/Store";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
@@ -12,15 +10,21 @@ import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSyst
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
-import { DarkModeContext } from "../../context/darkModeContext";
-import { useContext } from "react";
+import { useDispatch } from "react-redux";
+import { dark, light, loginFail } from '../../context/SearchContext'
 
 const Sidebar = () => {
-  const { dispatch } = useContext(DarkModeContext);
+
+  const dispatch = useDispatch()
+
+  const handleClick = () => {
+    dispatch(loginFail())
+  }
+
   return (
     <div className="sidebar">
       <div className="top">
-        <Link to="/" style={{ textDecoration: "none" }}>
+        <Link to="/admin" style={{ textDecoration: "none" }}>
           <span className="logo">lamadmin</span>
         </Link>
       </div>
@@ -33,26 +37,24 @@ const Sidebar = () => {
             <span>Dashboard</span>
           </li>
           <p className="title">LISTS</p>
-          <Link to="/users" style={{ textDecoration: "none" }}>
+          <Link to="/admin/user" style={{ textDecoration: "none" }}>
             <li>
               <PersonOutlineIcon className="icon" />
               <span>Users</span>
             </li>
           </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link to="/admin/hotel" style={{ textDecoration: "none" }}>
             <li>
-              <StoreIcon className="icon" />
-              <span>Products</span>
+              <Hotel className="icon" />
+              <span>Hotels</span>
             </li>
           </Link>
+          <Link to="/admin/room" style={{ textDecoration: "none" }}>
           <li>
-            <CreditCardIcon className="icon" />
-            <span>Orders</span>
+            <RoomOutlined className="icon" />
+            <span>Rooms</span>
           </li>
-          <li>
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
-          </li>
+          </Link>
           <p className="title">USEFUL</p>
           <li>
             <InsertChartIcon className="icon" />
@@ -82,18 +84,18 @@ const Sidebar = () => {
           </li>
           <li>
             <ExitToAppIcon className="icon" />
-            <span>Logout</span>
+            <span onClick={()=> handleClick()}>Logout</span>
           </li>
         </ul>
       </div>
       <div className="bottom">
         <div
           className="colorOption"
-          onClick={() => dispatch({ type: "LIGHT" })}
+          onClick={() => dispatch(light())}
         ></div>
         <div
           className="colorOption"
-          onClick={() => dispatch({ type: "DARK" })}
+          onClick={() => dispatch(dark())}
         ></div>
       </div>
     </div>

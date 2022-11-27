@@ -6,11 +6,12 @@ import FullscreenExitOutlinedIcon from "@mui/icons-material/FullscreenExitOutlin
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
-import { DarkModeContext } from "../../context/darkModeContext";
-import { useContext } from "react";
+import { useDispatch } from "react-redux";
+import { toggle } from "../../context/SearchContext";
 
 const Navbar = () => {
-  const { dispatch } = useContext(DarkModeContext);
+
+  const dispatch = useDispatch();
 
   return (
     <div className="navbar">
@@ -27,7 +28,7 @@ const Navbar = () => {
           <div className="item">
             <DarkModeOutlinedIcon
               className="icon"
-              onClick={() => dispatch({ type: "TOGGLE" })}
+              onClick={() => dispatch(toggle())}
             />
           </div>
           <div className="item">
@@ -46,7 +47,7 @@ const Navbar = () => {
           </div>
           <div className="item">
             <img
-              src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+              src="https://www.kindpng.com/picc/m/22-223941_transparent-avatar-png-male-avatar-icon-transparent-png.png"
               alt=""
               className="avatar"
             />
