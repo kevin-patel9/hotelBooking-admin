@@ -10,7 +10,7 @@ import { useFetch } from '../../hooks/useFetch'
 
 const List = () => {
 
-  const { data, loading, error} = useFetch(`https://hotels-booking.herokuapp.com/user`);
+  const { data, loading, error} = useFetch(`https://hotels-booking.onrender.com/user`);
 
   return (
     <TableContainer sx={{ maxHeight: 400 }} component={Paper} className="table">

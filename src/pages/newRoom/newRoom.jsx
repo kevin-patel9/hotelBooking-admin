@@ -13,7 +13,7 @@ const NewRoom = () => {
   const [hotelId, setHotelId] = useState(undefined);
   const [rooms, setRooms] = useState([]);
 
-  const { data, loading, error } = useFetch("https://hotels-booking.herokuapp.com/hotel");
+  const { data, loading, error } = useFetch("https://hotels-booking.onrender.com/hotel");
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
