@@ -26,13 +26,13 @@ export const userInputs = [
     id: "country",
     label: "Country",
     type: "text",
-    placeholder: "USA",
+    placeholder: "India",
   },
   {
     id: "city",
     label: "City",
     type: "text",
-    placeholder: "USA",
+    placeholder: "delhi",
   },
 ];
 
@@ -86,7 +86,7 @@ export const hotelInputs = [
     id: "city",
     label: "City",
     type: "text",
-    placeholder: "New York",
+    placeholder: "Mumbai",
   },
   {
     id: "address",
@@ -99,12 +99,6 @@ export const hotelInputs = [
     label: "Distance from City Center",
     type: "text",
     placeholder: "500",
-  },
-  {
-    id: "title",
-    label: "Title",
-    type: "text",
-    placeholder: "Great Hotel",
   },
   {
     id: "desc",

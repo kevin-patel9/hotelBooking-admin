@@ -43,15 +43,19 @@
 
           .formInput {
             width: 40%;
-
+            
             label {
               display: flex;
               align-items: center;
               gap: 10px;
-
+              
               .icon {
                 cursor: pointer;
               }
+            }
+            
+            #rooms{
+              width: 60%;
             }
             
             input {

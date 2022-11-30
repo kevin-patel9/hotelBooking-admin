@@ -1,23 +1,23 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, useLocation } from "react-router-dom";
-import { useFetch } from '../../hooks/useFetch'
-import axios from "axios";
+import { useFetch } from "../../hooks/useFetch";
 import { axiosInstance } from "../../config";
 
-const Datatable = ({columns}) => {
-
+const Datatable = ({ columns }) => {
   const location = useLocation();
 
   const path = location.pathname.split("/")[2];
 
-  const { data, loading, error, refetchData } = useFetch(`https://hotels-booking.herokuapp.com/${path}`);
+  const { data, loading, error, refetchData } = useFetch(
+    `https://hotels-booking.onrender.com/${path}`
+  );
 
   const handleDelete = async (id) => {
-    try{
-      await axiosInstance.delete(`/${path}/${id}`)
+    try {
+      await axiosInstance.delete(`/${path}/${id}`);
       refetchData();
-    }catch (err) {
+    } catch (err) {
       console.log(err);
     }
   };
@@ -28,18 +28,31 @@ const Datatable = ({columns}) => {
       headerName: "Action",
       width: 200,
       renderCell: (params) => {
+
         return (
           <div className="cellAction">
-            <Link to="/users/test" style={{ textDecoration: "none" }}>
-              <button className="viewButton">View</button>
-            </Link>
-            <div
+            {path == "user" ? (
+              <Link
+                to="/admin/user/test"
+                state={params.row._id}
+                style={{ textDecoration: "none" }}
+              >
+                <button
+                  className="viewButton"
+                >
+                  View
+                </button>
+              </Link>
+            ) : (
+              ""
+            )}
+            <button
+              disabled={path == "room"}
               className="deleteButton"
               onClick={() => handleDelete(params.row._id)}
-              >
+            >
               Delete
-            </div>
-            
+            </button>
           </div>
         );
       },
@@ -47,24 +60,27 @@ const Datatable = ({columns}) => {
   ];
   return (
     <div className="datatable">
-        <div className="datatableTitle">
-          {path}
-          <Link to={`/admin/${path}/new`} className="link">
-            Add New
-          </Link>
-        </div>
-      {loading ? <h4 className="loading">Loading... </h4>: <>
-        <DataGrid
-          className="datagrid"
-          rows={data}
-          columns={columns.concat(actionColumn)}
-          pageSize={9}
-          rowsPerPageOptions={[9]}
-          checkboxSelection
-          getRowId={row => row._id}
+      <div className="datatableTitle">
+        {path}
+        <Link to={`/admin/${path}/new`} className="link">
+          Add New
+        </Link>
+      </div>
+      {loading ? (
+        <h4 className="loading">Loading... </h4>
+      ) : (
+        <>
+          <DataGrid
+            className="datagrid"
+            rows={data}
+            columns={columns.concat(actionColumn)}
+            pageSize={9}
+            rowsPerPageOptions={[9]}
+            checkboxSelection
+            getRowId={(row) => row._id}
           />
         </>
-        }
+      )}
     </div>
   );
 };
