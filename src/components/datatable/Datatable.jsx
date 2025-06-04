@@ -3,15 +3,18 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Link, useLocation } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import { axiosInstance } from "../../config";
+import { useEffect } from "react";
 
 const Datatable = ({ columns }) => {
   const location = useLocation();
 
   const path = location.pathname.split("/")[2];
 
-  const { data, loading, error, refetchData } = useFetch(
-    `https://hotels-booking.onrender.com/${path}`
-  );
+  const { data, loading, refetchData } = useFetch();
+
+  useEffect(() => {
+    refetchData(`/${path}`);
+  },[path])
 
   const handleDelete = async (id) => {
     try {
@@ -77,7 +80,7 @@ const Datatable = ({ columns }) => {
             pageSize={9}
             rowsPerPageOptions={[9]}
             checkboxSelection
-            getRowId={(row) => row._id}
+            getRowId={(row) => row.id}
           />
         </>
       )}

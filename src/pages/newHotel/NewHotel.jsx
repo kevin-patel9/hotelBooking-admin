@@ -2,7 +2,7 @@ import "./newHotel.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { hotelInputs } from "../../formSource";
 import { useFetch } from "../../hooks/useFetch";
 import axios from "axios";
@@ -12,8 +12,13 @@ const NewHotel = () => {
   const [files, setFiles] = useState("");
   const [info, setInfo] = useState({});
   const [rooms, setRooms] = useState([]);
+  const [rating, setRating] = useState(1);
 
-  const { data, loading, error } = useFetch("https://hotels-booking.onrender.com/room");
+  const { data, loading, refetchData } = useFetch();
+
+  useEffect(() => {
+    refetchData("/rooms")
+  },[]);
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -50,9 +55,10 @@ const NewHotel = () => {
         ...info,
         rooms,
         photo: list,
+        rating
       };
 
-      await axiosInstance.post("/hotel", newhotel);
+      await axiosInstance.post("/hotel/createHotel", newhotel);
     } catch (err) {console.log(err)}
   };
   return (
@@ -102,7 +108,9 @@ const NewHotel = () => {
               ))}
               <div className="formInput">
                 <label>Rating</label>
-                <select id="rating">
+                <select 
+                  onChange={(e) => setRating(e.target.value)}
+                  id="rating">
                   <option>1</option>
                   <option>2</option>
                   <option>3</option>
@@ -113,8 +121,8 @@ const NewHotel = () => {
               <div className="formInput">
                 <label>Featured</label>
                 <select id="featured" onChange={handleChange}>
-                  <option value={false}>No</option>
-                  <option value={true}>Yes</option>
+                  <option value={0}>No</option>
+                  <option value={1}>Yes</option>
                 </select>
               </div>
               <div className="formInput">
@@ -124,7 +132,7 @@ const NewHotel = () => {
                     ? "loading"
                     : data &&
                       data.map((room) => (
-                        <option key={room._id} value={room._id}>
+                        <option key={room.id} value={room.id}>
                           {room.title}
                         </option>
                       ))}

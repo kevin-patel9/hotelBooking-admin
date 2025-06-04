@@ -1,7 +1,7 @@
 import "./room.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { roomInputs } from "../../formSource";
 import { useFetch } from "../../hooks/useFetch";
 import { axiosInstance } from "../../config";
@@ -11,7 +11,11 @@ const NewRoom = () => {
   const [hotelId, setHotelId] = useState(undefined);
   const [rooms, setRooms] = useState([]);
 
-  const { data, loading, error } = useFetch("https://hotels-booking.onrender.com/hotel");
+  const { data, loading, refetchData } = useFetch();
+
+  useEffect(() => {
+    refetchData("/hotel");
+  },[])
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -19,12 +23,20 @@ const NewRoom = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const roomNumbers = rooms.split(",").map((room) => ({ number: room }));
+    const roomNumbers = rooms.split(",").map((room) => room);
+
     try {
-      await axiosInstance.post(`/room/${hotelId}`, {
+      const roomDetail = await axiosInstance.post("/room/createRoom", {
         ...info,
-        roomNumbers,
+        hotelId,
       });
+
+      if (roomDetail.data?.id){
+        await axiosInstance.post("/room/createRoomNumber", {
+          roomId: roomDetail.data?.id,
+          roomNumbers
+        });
+      }
     } catch (err) {
       console.log(err);
     }
@@ -62,17 +74,25 @@ const NewRoom = () => {
               <div className="formInput">
                 <label>Choose a hotel</label>
                 <select
-                  id="hotelId"
-                  onChange={(e) => setHotelId(e.target.value)}
+                  id="id"
+                  onChange={(e) => {
+                    const selectedId = e.target.value;
+                    setHotelId(selectedId);
+                  }}                  
+                  defaultValue=""
                 >
-                  {loading
-                    ? "loading"
-                    : data &&
-                      data.map((hotel) => (
-                        <option key={hotel._id} value={hotel._id}>
-                          {hotel.name}
-                        </option>
-                      ))}
+                  <option value="" disabled>
+                    Select a hotel
+                  </option>
+                  {loading ? (
+                    <option disabled>Loading...</option>
+                  ) : (
+                    data?.map((hotel) => (
+                      <option key={hotel.id} value={hotel.id}>
+                        {hotel.name}
+                      </option>
+                    ))
+                  )}
                 </select>
               </div>
               <button onClick={handleClick}>Send</button>

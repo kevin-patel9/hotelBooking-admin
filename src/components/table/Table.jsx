@@ -7,10 +7,15 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useFetch } from '../../hooks/useFetch'
+import { useEffect } from "react";
 
 const List = () => {
 
-  const { data, loading, error} = useFetch(`https://hotels-booking.onrender.com/user`);
+  const { data, loading, refetchData } = useFetch();
+
+  useEffect(() => {
+    refetchData("/auth");
+  },[])
 
   return (
     <TableContainer sx={{ maxHeight: 400 }} component={Paper} className="table">

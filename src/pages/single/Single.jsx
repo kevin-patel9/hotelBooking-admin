@@ -5,6 +5,7 @@ import Chart from "../../components/chart/Chart";
 import List from "../../components/table/Table";
 import { useLocation } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
+import { useEffect } from "react";
 
 const Single = () => {
 
@@ -12,7 +13,11 @@ const Single = () => {
 
   const userId = location.state;
 
-  const { data } = useFetch(`https://hotels-booking.onrender.com/user/${userId}`)
+  const { data, refetchData } = useFetch()
+
+  useEffect(() => {
+    refetchData(`/user/${userId}`);
+  },[]);
 
   return (
     <div className="single">

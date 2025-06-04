@@ -12,7 +12,7 @@ import {
 import { userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useSelector } from "react-redux";
-import { hotelColumns, userColumns } from "./datatablesource";
+import { hotelColumns, roomColumns, userColumns } from "./datatablesource";
 import NewHotel  from './pages/newHotel/NewHotel';
 import NewRoom from "./pages/newRoom/newRoom";
 import { style } from "@mui/system";
@@ -101,7 +101,7 @@ function App() {
                 index
                 element={
                   <ProtectedRoute>
-                    <List columns={hotelColumns} />
+                    <List columns={roomColumns} />
                   </ProtectedRoute>
                 }
               />

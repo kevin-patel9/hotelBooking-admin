@@ -34,7 +34,7 @@ export const Login = () => {
 
         const res = await axiosInstance.post("/auth/login", credential)
 
-        if (res.data.isAdmin){
+        if (res.data.is_admin === 1){
           dispatch(loginSuccess(res.data))
           navigate("/")
         } 
@@ -65,7 +65,7 @@ export const Login = () => {
           className="passwordInput"
         />
         <button disabled={auth.loading} onClick={handleClick} className="loginBtn"> Login </button>  
-        <a href="https://hotel-booking-9248.onrender.com" className="mainPage"><i>Skip To Home page</i></a>
+        <a href="/" className="mainPage"><i>Skip To Home page</i></a>
         {auth.error && <span>{auth.error}</span>}
       </div>
     </div>
