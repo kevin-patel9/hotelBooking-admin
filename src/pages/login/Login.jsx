@@ -65,7 +65,7 @@ export const Login = () => {
           className="passwordInput"
         />
         <button disabled={auth.loading} onClick={handleClick} className="loginBtn"> Login </button>  
-        <a href="/" className="mainPage"><i>Skip To Home page</i></a>
+        <a href="https://hotel-booking-9248.onrender.com" className="mainPage"><i>Skip To Home page</i></a>
         {auth.error && <span>{auth.error}</span>}
       </div>
     </div>
