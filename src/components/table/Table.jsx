@@ -14,7 +14,7 @@ const List = () => {
   const { data, loading, refetchData } = useFetch();
 
   useEffect(() => {
-    refetchData("/auth");
+    // refetchData("/auth");
   },[])
 
   return (
@@ -37,7 +37,6 @@ const List = () => {
               <TableCell className="tableCell">
               <div className="cellWrapper">
                   <img src={row.img} alt="profile" className="image" />
-                  {row.product}
                   {row.username}
                 </div>
                 </TableCell>

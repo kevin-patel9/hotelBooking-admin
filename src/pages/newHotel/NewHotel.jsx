@@ -11,28 +11,12 @@ import { axiosInstance } from "../../config";
 const NewHotel = () => {
   const [files, setFiles] = useState("");
   const [info, setInfo] = useState({});
-  const [rooms, setRooms] = useState([]);
   const [rating, setRating] = useState(1);
-
-  const { data, loading, refetchData } = useFetch();
-
-  useEffect(() => {
-    refetchData("/rooms")
-  },[]);
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
-
-  const handleSelect = (e) => {
-    const value = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value
-    );
-    setRooms(value);
-  };
   
-
   const handleClick = async (e) => {
     e.preventDefault();
     try {
@@ -53,7 +37,6 @@ const NewHotel = () => {
 
       const newhotel = {
         ...info,
-        rooms,
         photo: list,
         rating
       };
@@ -123,19 +106,6 @@ const NewHotel = () => {
                 <select id="featured" onChange={handleChange}>
                   <option value={0}>No</option>
                   <option value={1}>Yes</option>
-                </select>
-              </div>
-              <div className="formInput">
-                <label>Rooms</label>
-                <select id="rooms" multiple onChange={handleSelect}>
-                  {loading
-                    ? "loading"
-                    : data &&
-                      data.map((room) => (
-                        <option key={room.id} value={room.id}>
-                          {room.title}
-                        </option>
-                      ))}
                 </select>
               </div>
               <button onClick={handleClick}>Send</button>
